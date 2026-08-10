@@ -39,7 +39,10 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        instance.SetLevelStatus("L1" , LevelStatus.Unlocked);
+        if (!PlayerPrefs.HasKey("L1"))
+        {
+            instance.SetLevelStatus("L1", LevelStatus.Unlocked);
+        }
     }
 
     internal LevelStatus GetLevelStatus(string level)
@@ -51,6 +54,7 @@ public class LevelManager : MonoBehaviour
     void SetLevelStatus(string level, LevelStatus levelStatus)
     {
         PlayerPrefs.SetInt(level, (int)levelStatus);
+        PlayerPrefs.Save();
     }
 
     public void LoadLevel(int sceneName)

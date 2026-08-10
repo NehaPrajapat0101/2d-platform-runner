@@ -26,7 +26,7 @@ public class LevelsLoad : MonoBehaviour
 
     void OnClick()
     {
-        LevelStatus levelStatus = LevelManager.Instance.GetLevelStatus(levelName.text);
+        LevelStatus levelStatus = LevelManager.Instance.GetLevelStatus("L" + levelName.text);
 
         switch(levelStatus)
         {
@@ -56,7 +56,7 @@ public class LevelsLoad : MonoBehaviour
     void CheckStatus()
     {
         ColorBlock buttonClr = levelButton.colors;
-        LevelStatus levelStatus = LevelManager.Instance.GetLevelStatus(levelName.text);
+        LevelStatus levelStatus = LevelManager.Instance.GetLevelStatus("L" + levelName.text);
 
         if (levelStatus == LevelStatus.Completed)
         {
