@@ -11,6 +11,7 @@ public class KeyController : MonoBehaviour
         if(collider.gameObject.GetComponent<PlayerController>() != null)
         {
             player = collider.gameObject.GetComponent<PlayerController>();
+            FindObjectOfType<AudioManager>().Play(SoundNames.KeyPickup);
             player.PickupKey();
             Destroy(gameObject);
         }

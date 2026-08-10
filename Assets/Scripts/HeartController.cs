@@ -33,6 +33,7 @@ public class HeartController : MonoBehaviour
         {
 
             //hearts[lives-1].SetActive(false);
+            FindObjectOfType<AudioManager>().PlayOnce(SoundNames.PlayerDeath);
             GreyHeart();
             lives--;
 

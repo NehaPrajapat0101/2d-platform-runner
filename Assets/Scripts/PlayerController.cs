@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 jumpingOffset;
     [SerializeField] private ScoreController scoreController;
     [SerializeField] private HeartController heartController;
+    [SerializeField] private GameOverController gameOverController;
     [SerializeField] private GameObject starting;
+    [SerializeField] private PauseManager pauseManager;
 
     private bool isCrouching = false;
     private bool isJumping = false;
@@ -48,6 +50,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (pauseManager.isPaused)
+            return;
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         speed = PlayerSpeed();
         PlyaerHasGun();
@@ -58,6 +63,26 @@ public class PlayerController : MonoBehaviour
         MovePlayer(horizontal, Speed());
         HandleGravity();
         HandleCollider();
+    }
+
+    void FootStepSound()
+    {
+        FindObjectOfType<AudioManager>().PlayOnce(SoundNames.PlayerWalk);
+    }
+
+    void PlayerJumpSound()
+    {
+        FindObjectOfType<AudioManager>().PlayOnce(SoundNames.PlayerJump);
+    }
+
+    void PlayerLandSound()
+    {
+        FindObjectOfType<AudioManager>().PlayOnce(SoundNames.PlayerLand);
+    }
+
+    void PlayerMeeleAttackSound()
+    {
+        FindObjectOfType<AudioManager>().PlayOnce(SoundNames.PlayerMeeleAttack);
     }
 
     float PlayerSpeed()
@@ -92,7 +117,6 @@ public class PlayerController : MonoBehaviour
         //    Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKey(KeyCode.Space))
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            //Debug.Log("shift + space");
             return jumpForce + deltaJump;
         }
         else
@@ -104,7 +128,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.D) ||
             Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKey(KeyCode.D))
         {
-            //Debug.Log("Shift + d");
             return speed + deltaSpeed;
         }
         else
@@ -211,15 +234,7 @@ public class PlayerController : MonoBehaviour
     {
         scoreController.ResetScore();
         scoreController.RefreshUI();
-        LevelReload();
-    }
-
-    void LevelReload()
-    {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-        SceneManager.LoadScene(currentSceneIndex);
-        
+        gameOverController.LevelReload();
     }
 
     void HandleGravity()
@@ -236,7 +251,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isCrouching)
         {
-            //Debug.Log("crouch collider");
             boxCollider.size = crouchSize;
             boxCollider.offset = crouchOffset;
         }
@@ -255,12 +269,10 @@ public class PlayerController : MonoBehaviour
     public void PickupKey()
     {
         scoreController.IncreaseScore(10);
-        //Debug.Log("Key collected");
     }
 
     private IEnumerator InvincibleCoroutine()
     {
-        Debug.Log("Invincible Coroutine fxn called");
         bool playerDead = heartController.DecreaseHearts();
 
         if (playerDead)
@@ -273,10 +285,13 @@ public class PlayerController : MonoBehaviour
         isInvincible = true;
 
         yield return new WaitForSeconds(invincibleTime);
-
-        Debug.Log("After yeild return");
         
         StartCoroutine(PlayerAtStart());
+    }
+
+    void GameOverUIActivation()
+    {
+        gameOverController.GameOverUIActivate();
     }
 
     IEnumerator PlayerAtStart()

@@ -150,13 +150,13 @@ TextureImporter:
       name: OptionsCloseButton_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 118
         y: 0
-        width: 512
+        width: 380
         height: 480
       alignment: 9
       pivot: {x: 0.509181, y: 0.5203394}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 128, z: 111, w: 134}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -171,13 +171,13 @@ TextureImporter:
       name: OptionsCloseButton_1
       rect:
         serializedVersion: 2
-        x: 512
+        x: 644
         y: 0
-        width: 512
+        width: 380
         height: 480
       alignment: 9
       pivot: {x: 0.48188722, y: 0.4847471}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 128, z: 111, w: 134}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -191,7 +191,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d64652c9cae9cc84494f324ed6668154
     internalID: 0
     vertices: []
     indices: 
